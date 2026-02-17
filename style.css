@@ -35,7 +35,7 @@ body.locked {
     left: 0;
     width: 100%;
     height: 100%;
-    z-index: 2;
+    z-index: 35;
     pointer-events: none;
     contain: paint;
 }
@@ -51,7 +51,7 @@ body.locked {
 
 
 body.is-open .flower {
-    opacity: 0.15;
+    opacity: 0;
 }
 
 /* --- PARALLAX FOREGROUND FLOWERS --- */
@@ -77,7 +77,7 @@ body.is-open .flower {
 
 
 body.is-open .foreground-flower {
-    opacity: 0.25;
+    opacity: 0;
 }
 
 /* --- ENVELOPE OVERLAY --- */
@@ -457,7 +457,7 @@ body.is-open .content-wrapper {
     transform: translateY(0) scale(1);
 }
 
-/* --- RSVP BUTTON SECTION --- */
+/* --- RSVP BUTTON SECTION (Unchanged) --- */
 .rsvp-button-section {
     position: relative;
     width: 100vw;
@@ -476,24 +476,65 @@ body.is-open .content-wrapper {
     transform: translateY(0) scale(1);
 }
 
+/* --- RSVP BUTTON SECTION (Unchanged) --- */
+.rsvp-button-section {
+    position: relative;
+    width: 100vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 60px 20px;
+    margin: 0;
+    opacity: 0;
+    transform: translateY(60px) scale(0.95);
+    transition: all 1.1s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.rsvp-button-section.visible {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+}
+
+/* --- UPDATED BUTTON STYLES --- */
 .rsvp-button {
     display: inline-block;
-    padding: 18px 50px;
-    background: linear-gradient(135deg, #FF9DBB 0%, #E88D83 100%);
-    color: white;
+    /* Spacing similar to the reference image */
+    padding: 12px 50px;
+    
+    /* White background */
+    background-color: #ffffff;
+    
+    /* Thin dusty-rose border */
+    border: 1px solid #8868b9;
+    
+    /* Text color matches border */
+    color: #8868b9;
+    
     text-decoration: none;
-    border-radius: 50px;
+    
+    /* 0px radius makes it a sharp rectangle */
+    border-radius: 0px; 
+    
+    /* Using your existing font as it fits the style perfectly */
     font-family: 'Bodoni Moda', serif;
-    font-size: 1.2rem;
-    font-weight: 600;
-    letter-spacing: 2px;
-    box-shadow: 0 8px 25px rgba(255, 157, 187, 0.3);
-    transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+    font-size: 1.4rem;
+    font-weight: 500;
+    
+    /* Lowercase text generally looks better with letter spacing */
+    letter-spacing: 1px;
+    
+    /* Smooth hover transition */
+    transition: all 0.3s ease;
 }
 
 .rsvp-button:hover {
+    /* On hover: swap colors (Solid pink background, white text) */
+    background-color: #8868b9;
+    color: #ffffff;
+    
+    /* Subtle lift up without rotation */
     transform: translateY(-3px);
-    box-shadow: 0 12px 35px rgba(255, 157, 187, 0.5);
+    box-shadow: 0 5px 15px rgba(184, 107, 119, 0.2);
 }
 
 .rsvp-button:active {
