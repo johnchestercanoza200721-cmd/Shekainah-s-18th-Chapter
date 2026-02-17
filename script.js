@@ -1,4 +1,32 @@
 /**
+ * Preload critical images to prevent layout thrashing during scroll
+ */
+function preloadImages() {
+    const imageUrls = [
+        'images/header1.png',
+        'images/player.png',
+        'images/debutantlist1.png',
+        'images/debutantlist2.png',
+        'images/giftnote.png',
+        'images/candlesnote.png',
+        'images/bluebillsgiftsnote.png',
+        'images/finestdetails.png',
+        'images/dresscode1.png',
+        'images/dresscode2.png',
+        'images/timeline.png',
+        'images/rsvp.png',
+        'images/endcard.png',
+        'images/flower1.png',
+        'images/flower2.png'
+    ];
+
+    imageUrls.forEach(url => {
+        const img = new Image();
+        img.src = url;
+    });
+}
+
+/**
  * Generate randomized flower particles for background and foreground (with collision detection)
  */
 function generateFlowers() {
@@ -285,3 +313,6 @@ document.addEventListener('DOMContentLoaded', () => {
     initAudioPlayer();
     initScrollObserver();
 });
+
+// Start preloading images immediately to prevent scroll jank
+preloadImages();
