@@ -18,8 +18,8 @@ function generateFlowers() {
         });
     }
 
-    // Generate 4-6 background flowers (reduced count)
-    const bgFlowerCount = Math.floor(Math.random() * 3) + 4;
+    // Generate 2-4 background flowers (reduced count for better mobile performance)
+    const bgFlowerCount = Math.floor(Math.random() * 3) + 2;
     let bgAttempts = 0;
     for (let i = 0; i < bgFlowerCount && bgAttempts < 20; i++, bgAttempts++) {
         const img = document.createElement('img');
@@ -53,8 +53,8 @@ function generateFlowers() {
         flowerLayer.appendChild(img);
     }
 
-    // Generate 3-5 foreground flowers (reduced count, sprinkled on sides)
-    const fgFlowerCount = Math.floor(Math.random() * 3) + 3;
+    // Generate 2-3 foreground flowers (reduced count for better mobile performance)
+    const fgFlowerCount = Math.floor(Math.random() * 2) + 2;
     let fgAttempts = 0;
     for (let i = 0; i < fgFlowerCount && fgAttempts < 20; i++, fgAttempts++) {
         const img = document.createElement('img');
@@ -124,12 +124,15 @@ function openInvite() {
 }
 
 /**
- * PARALLAX EFFECT for background and foreground flowers (mobile-optimized)
+ * PARALLAX EFFECT for background and foreground flowers (throttled with requestAnimationFrame)
  */
-window.addEventListener('scroll', () => {
+let ticking = false;
+let lastScrollY = 0;
+
+function updateParallax() {
     if (!document.body.classList.contains('is-open')) return;
 
-    const scrolled = window.pageYOffset;
+    const scrolled = lastScrollY;
     const backgroundFlowers = document.querySelectorAll('.flower');
     const foregroundFlowers = document.querySelectorAll('.foreground-flower');
 
@@ -138,7 +141,7 @@ window.addEventListener('scroll', () => {
         const speed = parseFloat(flower.getAttribute('data-speed')) || 0.5;
         const rotation = parseFloat(flower.getAttribute('data-rotation')) || 0;
         const yPos = scrolled * speed;
-        const blurAmount = Math.max(0, (Math.abs(yPos) / 500) * 3); // Blur increases with distance
+        const blurAmount = Math.max(0, (Math.abs(yPos) / 500) * 3);
         flower.style.transform = `translate3d(0, ${-yPos}px, 0) rotate(${rotation}deg)`;
         if (blurAmount > 0.5) {
             flower.style.filter = `blur(${blurAmount}px)`;
@@ -152,15 +155,23 @@ window.addEventListener('scroll', () => {
         const rotation = parseFloat(flower.getAttribute('data-rotation')) || 0;
         const yPos = scrolled * speed;
         const blurAmount = Math.max(0, (Math.abs(yPos) / 300) * 2);
-        
         flower.style.transform = `translate3d(0, ${-yPos}px, 0) rotate(${rotation}deg)`;
-        
         if (blurAmount > 0.3) {
             flower.style.filter = `blur(${blurAmount}px)`;
         } else {
             flower.style.filter = 'blur(0px)';
         }
     });
+    
+    ticking = false;
+}
+
+window.addEventListener('scroll', () => {
+    lastScrollY = window.pageYOffset;
+    if (!ticking) {
+        window.requestAnimationFrame(updateParallax);
+        ticking = true;
+    }
 }, { passive: true });
 
 /**
